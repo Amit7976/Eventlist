@@ -1,24 +1,12 @@
-"use server";
-import { signIn } from "@/nextAuth/auth";
-import { CredentialsSignin } from "next-auth";
+import { signIn } from "next-auth/react";
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export async function credentialsLogin(email: string, password: string) {
+  const result = await signIn("credentials", {
+    email,
+    password,
+    redirect: false,
+  });
 
-
-const credentialsLogin = async (email: string, password: string) => {
-    try {
-        const result = await signIn("credentials", {
-            email,
-            password,
-        });
-
-        return result;
-    } catch (error) {
-        const err = error as CredentialsSignin;
-        return err.cause;
-    }
-};
-
-export { credentialsLogin };
+  return result?.error || null;
+}

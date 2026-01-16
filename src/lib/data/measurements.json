@@ -1,0 +1,75 @@
+{
+    "categories": [
+        {
+            "id": "men",
+            "name": "Men",
+            "subcategories": [
+                {
+                    "id": "men_shirt",
+                    "name": "Shirt",
+                    "measurements": [
+                        { "label": "Chest", "key": "chest", "type": "number", "unit": "inch" },
+                        { "label": "Shoulder", "key": "shoulder", "type": "number", "unit": "inch" },
+                        { "label": "Sleeve Length", "key": "sleeve_length", "type": "number", "unit": "inch" },
+                        { "label": "Shirt Length", "key": "shirt_length", "type": "number", "unit": "inch" },
+                        { "label": "Neck", "key": "neck", "type": "number", "unit": "inch" }
+                    ]
+                },
+                {
+                    "id": "men_pant",
+                    "name": "Pant",
+                    "measurements": [
+                        { "label": "Waist", "key": "waist", "type": "number", "unit": "inch" },
+                        { "label": "Hip", "key": "hip", "type": "number", "unit": "inch" },
+                        { "label": "Inseam", "key": "inseam", "type": "number", "unit": "inch" },
+                        { "label": "Outseam", "key": "outseam", "type": "number", "unit": "inch" },
+                        { "label": "Thigh", "key": "thigh", "type": "number", "unit": "inch" }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "women",
+            "name": "Women",
+            "subcategories": [
+                {
+                    "id": "women_blouse",
+                    "name": "Blouse",
+                    "measurements": [
+                        { "label": "Bust", "key": "bust", "type": "number", "unit": "inch" },
+                        { "label": "Under Bust", "key": "under_bust", "type": "number", "unit": "inch" },
+                        { "label": "Shoulder", "key": "shoulder", "type": "number", "unit": "inch" },
+                        { "label": "Waist", "key": "waist", "type": "number", "unit": "inch" },
+                        { "label": "Blouse Length", "key": "blouse_length", "type": "number", "unit": "inch" }
+                    ]
+                },
+                {
+                    "id": "women_salwar",
+                    "name": "Salwar",
+                    "measurements": [
+                        { "label": "Waist", "key": "waist", "type": "number", "unit": "inch" },
+                        { "label": "Hip", "key": "hip", "type": "number", "unit": "inch" },
+                        { "label": "Thigh", "key": "thigh", "type": "number", "unit": "inch" },
+                        { "label": "Knee", "key": "knee", "type": "number", "unit": "inch" },
+                        { "label": "Length", "key": "length", "type": "number", "unit": "inch" }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "kids",
+            "name": "Kids",
+            "subcategories": [
+                {
+                    "id": "kids_frock",
+                    "name": "Frock",
+                    "measurements": [
+                        { "label": "Chest", "key": "chest", "type": "number", "unit": "inch" },
+                        { "label": "Waist", "key": "waist", "type": "number", "unit": "inch" },
+                        { "label": "Length", "key": "length", "type": "number", "unit": "inch" }
+                    ]
+                }
+            ]
+        }
+    ]
+}

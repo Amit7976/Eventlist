@@ -1,7 +1,6 @@
 import { auth } from "@/nextAuth/auth";
 import { redirect } from "next/navigation";
 import MainContent from "./MainContent";
-import Sidebar from "./components/Sidebar";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,23 +10,22 @@ import Sidebar from "./components/Sidebar";
 const Page = async () => {
 
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  const session = await auth();
-  if (!session?.user) redirect("/admin/auth/login");
+    const session = await auth();
+    if (!session?.user) redirect("/admin/auth/login");
 
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  return (
-    <div className="grid grid-cols-12 bg-white dark:bg-neutral-800 relative">
-      <div className="col-span-12">
-        <Sidebar />
-        <MainContent />
-      </div>
-    </div>
-  );
+    return (
+        <div className="grid grid-cols-12 bg-white dark:bg-neutral-800 relative">
+            <div className="col-span-12">
+                <MainContent />
+            </div>
+        </div>
+    );
 };
 export default Page;

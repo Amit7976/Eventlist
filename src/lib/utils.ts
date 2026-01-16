@@ -47,10 +47,10 @@ export const connectToDatabase = async () => {
   if (!cached.promise) {
     const uri = process.env.MONGO_URI as string;
 
-    if (!uri) throw new Error("❌ Missing MONGO_URI");
+    if (!uri) throw new Error("Missing MONGO_URI");
 
     cached.promise = mongoose.connect(uri, {
-      dbName: "eventList",
+      dbName: "deejaTemp",
       bufferCommands: false,
       serverSelectionTimeoutMS: 10000,
     });
@@ -58,9 +58,9 @@ export const connectToDatabase = async () => {
 
   try {
     cached.conn = await cached.promise;
-    console.log(`✅ Connected to MongoDB: ${cached.conn.connection.host}`);
+    console.log(`Connected to MongoDB: ${cached.conn.connection.host}`);
   } catch (error) {
-    console.error("❌ MongoDB connection failed:", error);
+    console.error("MongoDB connection failed:", error);
     cached.promise = null;
     throw error;
   }
