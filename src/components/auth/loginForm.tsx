@@ -33,13 +33,15 @@ const LoginForm = () => {
 
         const error = await credentialsLogin(email, password);
 
-        if (!error) {
-            toast.success("Login success");
-            router.refresh();
+        if (error) {
+            toast.error("Invalid email or password");
         } else {
-            toast.error("Login failed");
+            toast.success("Login success");
+            router.push("/admin"); // recommended
+            router.refresh();
         }
     };
+
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

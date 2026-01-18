@@ -1,76 +1,33 @@
-import { connectToDatabase } from "@/lib/utils";
-import Admin from "@/models/adminModel";
-import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import Credentials from "next-auth/providers/credentials";
+import admin from "@/lib/data/admin.json";
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
+    Credentials({
+      name: "Admin Login",
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: {},
+        password: {},
       },
       authorize: async (credentials) => {
-        await connectToDatabase();
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        const user = await Admin.findOne({ email: credentials?.email }).select(
-          "+password"
-        );
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        if (!user) {
-          throw new Error("Invalid email or password");
+        if (
+          credentials?.email === admin.email &&
+          credentials?.password === admin.password
+        ) {
+          return {
+            id: "admin-1",
+            email: admin.email,
+            name: admin.name,
+            role: "admin",
+          };
         }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        const isPasswordCorrect = await compare(
-          credentials!.password as string,
-          user.password
-        );
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        if (!isPasswordCorrect) {
-          throw new Error("Invalid email or password");
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        return {
-          id: user._id.toString(),
-          email: user.email,
-        };
+        return null;
       },
     }),
   ],
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  pages: {
-    signIn: "/admin/auth/login",
+  session: {
+    strategy: "jwt",
   },
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  callbacks: {
-    async session({ session, token }) {
-      session.user.id = token.sub!;
-      return session;
-    },
-  },
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  secret: process.env.NEXTAUTH_SECRET,
 });
