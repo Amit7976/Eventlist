@@ -1,39 +1,15 @@
 "use client";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-
-// Import Data
 import measurementsData from "@/lib/data/measurements.json";
-
-// UI Components
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
-} from "@/components/ui/table";
-
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -41,7 +17,9 @@ import { format } from "date-fns";
 import { Calendar1, CalendarIcon, ChevronLeft, ChevronRight, Eye, FilterX, LogOut, RefreshCcw, Search, SlidersHorizontal, Store, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 
-// Types
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface OrderType {
     _id: string;
     shopName: string;
@@ -56,34 +34,29 @@ interface OrderType {
     status?: string;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export default function MainContent() {
-    // --- State ---
     const [orders, setOrders] = useState<OrderType[]>([]);
     const [loading, setLoading] = useState(true);
     const [refreshKey, setRefreshKey] = useState(0);
-
-    // Modal State
     const [selectedOrder, setSelectedOrder] = useState<OrderType | null>(null);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [detailsLoading, setDetailsLoading] = useState(false);
-
-    // Pagination
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
-    // Filters
     const [shopFilter, setShopFilter] = useState("");
     const [categoryFilter, setCategoryFilter] = useState<string>("all");
     const [subCategoryFilter, setSubCategoryFilter] = useState<string>("all");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-
-    // --- Derived Data for Dropdowns ---
     const selectedCategoryData = useMemo(() => {
         return measurementsData.categories.find((c) => c.id === categoryFilter);
     }, [categoryFilter]);
+    const isFiltersActive = shopFilter || categoryFilter !== "all" || startDate || endDate;
 
-    // --- API Calls ---
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     const fetchOrders = async () => {
         try {
             setLoading(true);
@@ -108,6 +81,8 @@ export default function MainContent() {
         }
     };
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     const fetchOrderDetails = async (id: string) => {
         try {
             setDetailsLoading(true);
@@ -121,18 +96,22 @@ export default function MainContent() {
         }
     };
 
-    // --- Effects ---
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     useEffect(() => {
         fetchOrders();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, shopFilter, categoryFilter, subCategoryFilter, startDate, endDate, refreshKey]);
 
-    // --- Handlers ---
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     const handleCategoryChange = (val: string) => {
         setCategoryFilter(val);
         setSubCategoryFilter("all");
         setPage(1);
     };
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const clearFilters = () => {
         setShopFilter("");
@@ -143,6 +122,7 @@ export default function MainContent() {
         setPage(1);
     };
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const formatDate = (dateString?: string) => {
         if (!dateString) return "N/A";
@@ -153,11 +133,11 @@ export default function MainContent() {
         });
     };
 
-    const isFiltersActive = shopFilter || categoryFilter !== "all" || startDate || endDate;
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         <div className="min-h-screen bg-gray-50/50 pb-20 font-sans">
-            {/* --- Top Navigation Bar --- */}
+
             <header className="bg-white border-b border-gray-100 sticky top-0 z-20 shadow-sm">
                 <div className="px-4 sm:px-6 lg:px-16 h-16 flex justify-between items-center">
                     <div className="flex items-center gap-3">
@@ -192,7 +172,6 @@ export default function MainContent() {
 
             <main className="px-4 sm:px-6 lg:px-14 py-8 space-y-6">
 
-                {/* --- Filters Bar --- */}
                 <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                     <div className="flex flex-col lg:flex-row gap-4 lg:items-center justify-between mb-4">
                         <div className="flex items-center gap-2 text-gray-800 font-semibold mb-2 lg:mb-0">
@@ -312,7 +291,6 @@ export default function MainContent() {
                     </div>
                 </div>
 
-                {/* --- Data Table --- */}
                 <Card className="shadow-lg border-0 ring-1 ring-gray-100 overflow-hidden bg-white">
                     <CardHeader className="border-b border-gray-100 px-6 py-4 bg-white">
                         <div className="flex items-center justify-between">
@@ -447,9 +425,9 @@ export default function MainContent() {
                         </div>
                     )}
                 </Card>
+
             </main>
 
-            {/* --- Detail Modal --- */}
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogContent className="max-w-2xl bg-white p-0 overflow-hidden gap-0 border-0 shadow-2xl rounded-2xl">
                     <DialogHeader className="p-6 pb-4 border-b border-gray-100 bg-gray-50/50">

@@ -1,23 +1,14 @@
 "use client";
-
 import { useState } from "react";
 import measurementsJson from "@/lib/data/measurements.json";
-
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-    Select,
-    SelectTrigger,
-    SelectContent,
-    SelectItem,
-    SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
@@ -25,9 +16,9 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import { Scissors, User, Ruler, Calendar as CalendarIcon, ShoppingBag, ArrowRight } from "lucide-react";
 
-/* ------------------------------------------------------------------
-1. Types for JSON Data
------------------------------------------------------------------- */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface MeasurementField {
     key: string;
     label: string;
@@ -49,9 +40,8 @@ interface Category {
 
 const measurementsData = measurementsJson as { categories: Category[] };
 
-/* ------------------------------------------------------------------
- 2. Zod Schema
------------------------------------------------------------------- */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const formSchema = z.object({
     shopName: z.string().min(1, "Shop name is required"),
     clientName: z.string().optional(),
@@ -79,21 +69,17 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-/* ------------------------------------------------------------------
- 🧩 3. Component
------------------------------------------------------------------- */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export default function Page() {
     const today = new Date().toISOString().split("T")[0];
     const [loading, setLoading] = useState(false);
     const [category, setCategory] = useState<string>("");
     const [subcategory, setSubcategory] = useState<string>("");
+    const selectedCategory = measurementsData.categories.find((c) => c.id === category);
+    const selectedSubcategory = selectedCategory?.subcategories.find((s) => s.id === subcategory);
 
-    const selectedCategory = measurementsData.categories.find(
-        (c) => c.id === category
-    );
-    const selectedSubcategory = selectedCategory?.subcategories.find(
-        (s) => s.id === subcategory
-    );
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const {
         register,
@@ -115,6 +101,8 @@ export default function Page() {
         },
     });
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
         try {
             setLoading(true);
@@ -127,6 +115,8 @@ export default function Page() {
             setLoading(false);
         }
     };
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         <main className="min-h-screen bg-neutral-900 py-16 px-4 sm:px-6 font-sans text-neutral-900 selection:bg-neutral-900 selection:text-white">
